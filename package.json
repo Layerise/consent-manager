@@ -8,7 +8,11 @@
     "analytics",
     "analytics.js"
   ],
-  "repository": "segmentio/consent-manager",
+  "repository": "Layerise/consent-manager",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  },
   "license": "MIT",
   "main": "commonjs/index.js",
   "module": "esm/index.js",

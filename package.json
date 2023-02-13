@@ -1,5 +1,5 @@
 {
-  "name": "@segment/consent-manager",
+  "name": "@layerise/consent-manager",
   "version": "5.7.0",
   "description": "Drop-in consent management plugin for analytics.js",
   "keywords": [

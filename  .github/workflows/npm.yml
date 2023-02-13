@@ -1,0 +1,47 @@
+name: Build and publish to npm registry
+
+on:
+  push:
+    branches: master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      # 1. provide Personal Access Token for checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          # pulls all commits (needed for lerna / semantic release to correctly version)
+          fetch-depth: '0'
+          submodules: recursive
+          token: ${{ secrets.GH_PUBLISH }}
+
+      - name: Pull changes from commit
+        # pulls all tags (needed for lerna / semantic release to correctly version)
+        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+
+      # 2. setup .npmrc it uses NODE_AUTH_TOKEN
+      - name: Setup .npmrc file for publish
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      # 3. configure git user used to push tag
+      - name: Configure Git User
+        run: |
+          git config --global user.email "emil@layerise.com"
+          git config --global user.name "@$GITHUB_ACTOR"
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Build packages
+        run: npm run build
+
+      - name: Publish
+        run: |
+          npm run publish

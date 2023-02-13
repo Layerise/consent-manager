@@ -344,7 +344,7 @@ export default class ConsentManagerBuilder extends Component<Props, State> {
         newDestinations.length > 0 ||
         typeof newPreferences === 'boolean'
       ) {
-        // The following line causes the page reload on cookie consent saving.
+        // The following line causes the page reload on cookie consent saving
         // shouldReload = true
       }
       savePreferences({
